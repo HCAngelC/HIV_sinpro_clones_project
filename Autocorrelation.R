@@ -9,10 +9,12 @@
 
 autocorrelation <- function(df) {
   df.pacf <- pacf(df$GFP_pos, plot = F)
-  df.pacf <- data.frame(df.pacf$acf)
-  names(df.pacf) <- c("pacf")
-  df.pacf <- df.pacf %>% dplyr::add_row(pacf = 0, .before = 1) %>% dplyr::mutate(Measurement = c(1:11))
-  df$Measurement <- as.numeric(df$Measurement)
-  df_fi <- dplyr::inner_join(df, df.pacf, by = "Measurement")
+  df.pacf <- data.frame(df.pacf$acf) #calculate lag for (%) GFP-positive cells
+  names(df.pacf) <- c("gfp_lag")
+  df.pacf <- df.pacf %>% dplyr::mutate(lag = c(1:10))
+  df_ <- df %>% dplyr::mutate(cv_lag = CV_FITC - lag(CV_FITC), sd_lag = SD_FITC - lag(SD_FITC)) %>% dplyr::select(cv_lag, sd_lag) #calculate lag for CV and SD
+  df_ <- df_[2:11, ]
+  df_ <- df_ %>% dplyr::mutate(lag = c(1:10))
+  df_fi <- dplyr::inner_join(df_, df.pacf, by = "lag")
   return(df_fi)
 }
