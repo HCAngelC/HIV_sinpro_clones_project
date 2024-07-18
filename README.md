@@ -1,1 +1,1 @@
-## Sensitized_model_-_stochastic_HIV_transcription 
+## Sensitized model-stochastic HIV transcription 
