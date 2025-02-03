@@ -18,10 +18,10 @@ drug_enrichment_foldchange <- function(df) {
   PEP <- df %>% dplyr::filter(Drug == "PEP") %>% dplyr::select(GFP_pos, Mean, CV, Mean.live, CV.live)
   m.value.PEP <- c(mean(PEP$GFP_pos), mean(PEP$Mean), mean(PEP$CV*PEP$CV), mean(PEP$Mean.live), mean(PEP$CV.live*PEP$CV.live))
   
-  Mock = m.value.Mock_2/m.value.Mock_1
-  DMSO = m.value.DMSO/m.value.Mock_2
-  PMA_I = m.value.DMSO/m.value.PMA_I
-  PEP = m.value.DMSO/m.value.PEP
+  Mock = (m.value.Mock_2)-(m.value.Mock_1)
+  DMSO = (m.value.DMSO)-(m.value.Mock_2)
+  PMA_I = (m.value.DMSO)-(m.value.PMA_I)
+  PEP = (m.value.DMSO)-(m.value.PEP)
   
   parameter <- c("delta.GFP_pos", "delta.Mean", "delta.CV", "delta.Mean.live", "delta.CV.live")
   
